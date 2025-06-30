@@ -22,9 +22,14 @@ class FurnitureApiController extends AbstractController
             $data[] = [
                 'id' => $furniture->getId(),
                 'name' => $furniture->getName(),
+                'description' => $furniture->getDescription(),
+                'image' => $furniture->getImage(),
                 'material' => $furniture->getMaterial(),
+                'color' => $furniture->getColor(),
                 'price' => $furniture->getPrice(),
-                'image' => 'images' . $furniture->getImage()
+                'isGreen' => $furniture->IsGreen(),
+                'createdAt' => $furniture->getCreatedAt()->format('Y-m-d\TH:i:s'),
+
             ];
         }
 
