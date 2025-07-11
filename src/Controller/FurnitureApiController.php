@@ -35,6 +35,30 @@ class FurnitureApiController extends AbstractController
         return $this->json($data);
     }
 
+    #[Route('/api/furnitures/furniture/{id}', name: 'api_furniture_show', methods: ['GET'])]
+    public function show(EntityManagerInterface $em, int $id): JsonResponse
+    {
+        $furniture = $em->getRepository(Furniture::class)->find($id);
+
+        if (!$furniture) {
+            return $this->json(['error' => 'Elemento non trovato'], 404);
+        }
+
+        $data = [
+            'id' => $furniture->getId(),
+            'name' => $furniture->getName(),
+            'description' => $furniture->getDescription(),
+            'image' => $furniture->getImage(),
+            'material' => $furniture->getMaterial(),
+            'color' => $furniture->getColor(),
+            'price' => $furniture->getPrice(),
+            'isGreen' => $furniture->isGreen(),
+            'createdAt' => $furniture->getCreatedAt()->format('Y-m-d\TH:i:s'),
+        ];
+
+        return $this->json($data);
+    }
+
     #[Route('/api/furnitures/populate', name: 'api_furnitures-populate', methods: ['GET'])]
     public function populate(EntityManagerInterface $em): Response
     {
