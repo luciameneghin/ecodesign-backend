@@ -29,6 +29,8 @@ class FurnitureApiController extends AbstractController
                 'price' => $furniture->getPrice(),
                 'isGreen' => $furniture->IsGreen(),
                 'createdAt' => $furniture->getCreatedAt()->format('Y-m-d\TH:i:s'),
+                'outDoor' => $furniture->isOutDoor(),
+                'category' => $furniture->getCategory(),
             ];
         }
 
@@ -54,6 +56,8 @@ class FurnitureApiController extends AbstractController
             'price' => $furniture->getPrice(),
             'isGreen' => $furniture->isGreen(),
             'createdAt' => $furniture->getCreatedAt()->format('Y-m-d\TH:i:s'),
+            'outDoor' => $furniture->isOutDoor(),
+            'category' => $furniture->getCategory(),
         ];
 
         return $this->json($data);
@@ -70,6 +74,8 @@ class FurnitureApiController extends AbstractController
         $furniture1->setIsGreen(true);
         $furniture1->setCreatedAt(new \DateTimeImmutable());
         $furniture1->setImage('images/divano-rund-grigino.png');
+        $furniture1->isOutDoor(true);
+        $furniture1->setCategory('poltrone e divani');
 
         $existing = $em->getRepository(Furniture::class)
             ->findOneBy(['name' => 'Divano Rund']);

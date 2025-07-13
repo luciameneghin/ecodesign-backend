@@ -37,6 +37,12 @@ class Furniture
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $category = null;
+
+    #[ORM\Column]
+    private ?bool $outdoor = null;
+
 
     public function getId(): ?int
     {
@@ -133,6 +139,30 @@ class Furniture
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category): static
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function isOutdoor(): ?bool
+    {
+        return $this->outdoor;
+    }
+
+    public function setOutdoor(bool $outdoor): static
+    {
+        $this->outdoor = $outdoor;
+
         return $this;
     }
 }
