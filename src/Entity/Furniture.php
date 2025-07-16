@@ -43,6 +43,12 @@ class Furniture
     #[ORM\Column]
     private ?bool $outdoor = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $defaultLegsImage = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $defaultSeatImage = null;
+
 
     public function getId(): ?int
     {
@@ -162,6 +168,30 @@ class Furniture
     public function setOutdoor(bool $outdoor): static
     {
         $this->outdoor = $outdoor;
+
+        return $this;
+    }
+
+    public function getDefaultLegsImage(): ?string
+    {
+        return $this->defaultLegsImage;
+    }
+
+    public function setDefaultLegsImage(?string $defaultLegsImage): static
+    {
+        $this->defaultLegsImage = $defaultLegsImage;
+
+        return $this;
+    }
+
+    public function getDefaultSeatImage(): ?string
+    {
+        return $this->defaultSeatImage;
+    }
+
+    public function setDefaultSeatImage(?string $defaultSeatImage): static
+    {
+        $this->defaultSeatImage = $defaultSeatImage;
 
         return $this;
     }
