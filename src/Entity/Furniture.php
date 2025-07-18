@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FurnitureRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FurnitureRepository::class)]
@@ -37,10 +39,10 @@ class Furniture
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $category = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $outdoor = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -48,6 +50,24 @@ class Furniture
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $defaultSeatImage = null;
+
+    /**
+     * @var Collection<int, FurnitureLeg>
+     */
+    #[ORM\OneToMany(targetEntity: FurnitureLeg::class, mappedBy: 'furniture')]
+    private Collection $furnitureLegs;
+
+    /**
+     * @var Collection<int, FurnitureSeat>
+     */
+    #[ORM\OneToMany(targetEntity: FurnitureSeat::class, mappedBy: 'furniture')]
+    private Collection $furnitureSeats;
+
+    public function __construct()
+    {
+        $this->furnitureLegs = new ArrayCollection();
+        $this->furnitureSeats = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -192,6 +212,66 @@ class Furniture
     public function setDefaultSeatImage(?string $defaultSeatImage): static
     {
         $this->defaultSeatImage = $defaultSeatImage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FurnitureLeg>
+     */
+    public function getFurnitureLegs(): Collection
+    {
+        return $this->furnitureLegs;
+    }
+
+    public function addFurnitureLeg(FurnitureLeg $furnitureLeg): static
+    {
+        if (!$this->furnitureLegs->contains($furnitureLeg)) {
+            $this->furnitureLegs->add($furnitureLeg);
+            $furnitureLeg->setFurniture($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFurnitureLeg(FurnitureLeg $furnitureLeg): static
+    {
+        if ($this->furnitureLegs->removeElement($furnitureLeg)) {
+            // set the owning side to null (unless already changed)
+            if ($furnitureLeg->getFurniture() === $this) {
+                $furnitureLeg->setFurniture(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FurnitureSeat>
+     */
+    public function getFurnitureSeats(): Collection
+    {
+        return $this->furnitureSeats;
+    }
+
+    public function addFurnitureSeat(FurnitureSeat $furnitureSeat): static
+    {
+        if (!$this->furnitureSeats->contains($furnitureSeat)) {
+            $this->furnitureSeats->add($furnitureSeat);
+            $furnitureSeat->setFurniture($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFurnitureSeat(FurnitureSeat $furnitureSeat): static
+    {
+        if ($this->furnitureSeats->removeElement($furnitureSeat)) {
+            // set the owning side to null (unless already changed)
+            if ($furnitureSeat->getFurniture() === $this) {
+                $furnitureSeat->setFurniture(null);
+            }
+        }
 
         return $this;
     }
