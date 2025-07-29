@@ -21,6 +21,7 @@ class FurniturePartController extends AbstractController
                 'id' => $leg->getId(),
                 'name' => $leg->getName(),
                 'image' => $leg->getImage(),
+                'furniture_id' => $leg->getFurniture()?->getId(),
             ];
         }
 
@@ -38,6 +39,7 @@ class FurniturePartController extends AbstractController
                 'id' => $seat->getId(),
                 'name' => $seat->getName(),
                 'image' => $seat->getImage(),
+                'furniture_id' => $seat->getFurniture()?->getId(),
             ];
         }
 
